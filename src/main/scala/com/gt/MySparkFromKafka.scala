@@ -21,6 +21,8 @@ object MySparkFromKafka {
 
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName(appName).setMaster(master)
+      .set("spark.streaming.backpressure.enabled", "true")
+      .set("spark.streaming.kafka.maxRatePerPartition", "100")//那么每秒最大吞吐就是100条
     val ssc = new StreamingContext(conf, Seconds(10))
 
     //Direct 方式是直接连接到kafka的节点上获取数据
